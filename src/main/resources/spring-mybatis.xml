@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/tx 
+        http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<!-- 包 扫描 -->
+	<context:component-scan base-package="com.smvd.pojo,com.smvd.dao,com.smvd.service" />
+
+	<!-- 引入配置文件 -->
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="classpath:jdbc.properties" />
+	</bean>
+
+	<!-- 配置c3p0数据源 -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+		<property name="jdbcUrl" value="${jdbc.url}" />
+		<property name="driverClass" value="${jdbc.driver}" />
+		<property name="user" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<!--连接池中保留的最大连接数。 -->
+		<property name="maxPoolSize" value="${maxActive}" />
+		<!--连接池中保留的最小连接数。 -->
+		<property name="minPoolSize" value="${minActive}" />
+		<!--初始化时获取的连接数，取值应在minPoolSize与maxPoolSize之间。Default: 3 -->
+		<property name="initialPoolSize" value="${initialSize}" />
+		<!--最大空闲时间,60秒内未使用则连接被丢弃。若为0则永不丢弃。Default: 0 -->
+		<property name="maxIdleTime" value="${maxWait}" />
+		<!--当连接池中的连接耗尽的时候c3p0一次同时获取的连接数。Default: 3 -->
+		<property name="acquireIncrement" value="${newCreate}" />
+	</bean>
+
+
+	<!-- 取得SqlSessionFactory -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+
+		<!-- 主要用来配置mybatis 中的 configuration 中的setting的配置 -->
+		<property name="configurationProperties">
+			<props>
+				<prop key="logImpl">LOG4J</prop>
+			</props>
+		</property>
+
+		<!-- 别名包的位置 -->
+		<property name="typeAliasesPackage" value="com.smvd.pojo"></property>
+
+		<!-- 配置mapper的映射文件 -->
+		<property name="mapperLocations" value="classpath:com/smvd/mapping/*.xml"></property>
+
+	</bean>
+
+	<!-- 事务管理器 mybatis使用标准的jdbc框架 -->
+	<bean id="txManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<!-- 启用注解框架 注解解析 -->
+	<tx:annotation-driven transaction-manager="txManager" />
+
+	<!-- 由spring提供的事物增强 -->
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+		<!-- spring只支持方法级的增强，所以这里配置哪些方法要加入事物增强 -->
+		<tx:attributes>
+			<tx:method name="get*" read-only="true" />
+			<tx:method name="find*" read-only="true" />
+			<tx:method name="retrieve*" read-only="true" />
+			<tx:method name="*" read-only="false" />
+		</tx:attributes>
+	</tx:advice>
+</beans>
+
+

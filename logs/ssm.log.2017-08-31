@@ -1,0 +1,14 @@
+2017-08-31 16:52:07  [ main:0 ] - [ INFO ]  Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@4ca8195f: startup date [Thu Aug 31 16:52:07 CST 2017]; root of context hierarchy
+2017-08-31 16:52:07  [ main:26 ] - [ INFO ]  Loading XML bean definitions from class path resource [spring-mybatis.xml]
+2017-08-31 16:52:08  [ main:245 ] - [ INFO ]  Loading properties file from class path resource [jdbc.properties]
+2017-08-31 16:52:08  [ main:248 ] - [ INFO ]  JSR-330 'javax.inject.Inject' annotation found and supported for autowiring
+2017-08-31 16:52:08  [ main:711 ] - [ DEBUG ]  ==>  Preparing: select uid, uname, upwd, uage from user_t where 1=1 
+2017-08-31 16:52:08  [ main:730 ] - [ DEBUG ]  ==> Parameters: 
+2017-08-31 16:52:08  [ main:742 ] - [ DEBUG ]  <==      Total: 1
+2017-08-31 17:17:46  [ main:0 ] - [ INFO ]  Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@4ca8195f: startup date [Thu Aug 31 17:17:46 CST 2017]; root of context hierarchy
+2017-08-31 17:17:46  [ main:27 ] - [ INFO ]  Loading XML bean definitions from class path resource [spring-mybatis.xml]
+2017-08-31 17:17:47  [ main:250 ] - [ INFO ]  Loading properties file from class path resource [jdbc.properties]
+2017-08-31 17:17:47  [ main:253 ] - [ INFO ]  JSR-330 'javax.inject.Inject' annotation found and supported for autowiring
+2017-08-31 17:17:47  [ main:747 ] - [ DEBUG ]  ==>  Preparing: select uid, uname, upwd, uage from user_t where 1=1 
+2017-08-31 17:17:47  [ main:766 ] - [ DEBUG ]  ==> Parameters: 
+2017-08-31 17:17:47  [ main:776 ] - [ DEBUG ]  <==      Total: 1
